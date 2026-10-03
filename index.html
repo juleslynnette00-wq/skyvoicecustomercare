@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkyResolve — Global Airline Complaint Portal</title>
+    <title>SkyVoiceCustomer Agency — Global Airline Complaint Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -149,6 +150,14 @@
         @media (max-width: 768px) {
             .hero-title { font-size: 2.5rem !important; }
         }
+
+        @keyframes note-pulse {
+            0%, 100% { border-color: rgba(234,179,8,0.2); }
+            50% { border-color: rgba(234,179,8,0.5); }
+        }
+        .note-border-pulse {
+            animation: note-pulse 3s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="min-h-screen overflow-x-hidden">
@@ -165,7 +174,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
                     </svg>
                 </div>
-                <span class="text-lg font-semibold tracking-tight">Sky<span class="text-blue-400">Resolve</span></span>
+                <span class="text-lg font-semibold tracking-tight">Sky<span class="text-blue-400">Voice</span>Customer</span>
             </a>
             <div class="hidden md:flex items-center gap-8">
                 <a href="#complaint" class="text-sm text-neutral-400 hover:text-white transition-colors duration-300">File Complaint</a>
@@ -228,8 +237,26 @@
                 </a>
             </div>
 
+            <!-- Important Note Banner -->
+            <div class="mt-12 max-w-2xl mx-auto opacity-0 animate-fade-up delay-400">
+                <div class="note-border-pulse bg-yellow-500/5 border border-yellow-500/20 rounded-2xl p-5 sm:p-6 flex items-start gap-4 text-left">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center mt-0.5">
+                        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-yellow-300 mb-1.5 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            Important Note
+                        </h4>
+                        <p class="text-sm text-yellow-200/70 font-light leading-relaxed">
+                            <strong class="text-yellow-200 font-medium">SkyVoiceCustomer Agency</strong> acts as an intermediary that formally forwards your complaint directly to the specific airline company's customer relations department. We ensure your grievance is delivered to the right desk so that your issue can be investigated and resolved by the airline. We do not adjudicate claims — we make sure your voice is heard by the people who can act on it.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- Stats Row -->
-            <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 opacity-0 animate-fade-up delay-400">
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 opacity-0 animate-fade-up delay-500">
                 <div class="stat-card glass rounded-2xl p-5 text-center cursor-default">
                     <div class="text-2xl sm:text-3xl font-semibold text-blue-400" id="stat1">0</div>
                     <div class="text-xs text-neutral-500 mt-1 uppercase tracking-wider">Airlines Covered</div>
@@ -302,8 +329,23 @@
                             <svg class="w-7 h-7 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         </div>
                         <div class="text-xs font-semibold text-green-400 uppercase tracking-widest mb-3">Step 03</div>
-                        <h3 class="text-xl font-medium mb-3">Get Resolution</h3>
-                        <p class="text-sm text-neutral-400 font-light leading-relaxed">Your complaint is formally submitted. Receive confirmation and track your case to resolution.</p>
+                        <h3 class="text-xl font-medium mb-3">We Forward to Airline</h3>
+                        <p class="text-sm text-neutral-400 font-light leading-relaxed">Your complaint is formally forwarded to the airline's customer relations department. They will review and work toward resolving your issue.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Important Note - How It Works Section -->
+            <div class="mt-12 max-w-3xl mx-auto">
+                <div class="note-border-pulse bg-yellow-500/5 border border-yellow-500/20 rounded-2xl p-5 sm:p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center mt-0.5">
+                        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-yellow-300 mb-1">Agency Disclaimer</h4>
+                        <p class="text-sm text-yellow-200/70 font-light leading-relaxed">
+                            <strong class="text-yellow-200 font-medium">SkyVoiceCustomer Agency</strong> is a complaint forwarding service. We do not investigate or adjudicate complaints ourselves. Once you submit your complaint, we formally forward it to the respective airline company so that they can address and resolve your issue directly. All resolutions come from the airline — we ensure your complaint reaches them effectively.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -323,9 +365,24 @@
                 <p class="mt-4 text-neutral-400 font-light max-w-xl mx-auto">Select the airline, provide your details, and let us handle the rest</p>
             </div>
 
+            <!-- Important Note - Before Form -->
+            <div class="mb-8">
+                <div class="note-border-pulse bg-yellow-500/5 border border-yellow-500/20 rounded-2xl p-5 sm:p-6 flex items-start gap-4">
+                    <div class="flex-shrink-0 w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center mt-0.5">
+                        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-semibold text-yellow-300 mb-1">Important Note</h4>
+                        <p class="text-sm text-yellow-200/70 font-light leading-relaxed">
+                            <strong class="text-yellow-200 font-medium">SkyVoiceCustomer Agency</strong> will formally forward your complaint to the specific airline company you select below. The airline will then review your case and work toward resolving your issue. We act as the bridge between you and the airline to ensure your complaint is officially received and acknowledged.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <form id="complaint-form" class="glass-strong rounded-3xl p-6 sm:p-10 animate-pulse-glow">
                 <input type="hidden" name="access_key" value="4ad96dd9-ba94-41c3-a11d-8820e2bc9448">
-                <input type="hidden" name="subject" value="New Airline Complaint Submitted — SkyResolve">
+                <input type="hidden" name="subject" value="New Airline Complaint Submitted — SkyVoiceCustomer Agency">
                 <input type="checkbox" name="botcheck" class="hidden">
 
                 <!-- Airline Search -->
@@ -465,7 +522,7 @@
                     <label class="flex items-start gap-3 cursor-pointer group">
                         <input type="checkbox" id="agreement" required class="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-blue-500 focus:ring-blue-500/30 focus:ring-offset-0">
                         <span class="text-xs text-neutral-400 font-light leading-relaxed group-hover:text-neutral-300 transition-colors">
-                            I confirm that the information provided is accurate and truthful. I authorize SkyResolve to submit this complaint on my behalf to the selected airline. I understand that false claims may result in my submission being disregarded.
+                            I confirm that the information provided is accurate and truthful. I authorize <strong class="text-neutral-300">SkyVoiceCustomer Agency</strong> to submit and forward this complaint on my behalf to the selected airline company so that my issue can be investigated and resolved. I understand that false claims may result in my submission being disregarded.
                         </span>
                     </label>
                 </div>
@@ -539,9 +596,13 @@
                         <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
                         </div>
-                        <span class="text-lg font-semibold tracking-tight">Sky<span class="text-blue-400">Resolve</span></span>
+                        <span class="text-lg font-semibold tracking-tight">Sky<span class="text-blue-400">Voice</span>Customer</span>
                     </div>
-                    <p class="text-sm text-neutral-500 font-light leading-relaxed max-w-md">The world's most comprehensive airline complaint portal. Empowering travelers to voice their concerns and seek fair resolution.</p>
+                    <p class="text-sm text-neutral-500 font-light leading-relaxed max-w-md mb-4">The world's most comprehensive airline complaint forwarding agency. Empowering travelers to voice their concerns and ensuring those concerns reach the right airline for resolution.</p>
+                    <div class="bg-yellow-500/5 border border-yellow-500/15 rounded-xl p-3 flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p class="text-xs text-yellow-200/60 font-light leading-relaxed"><strong class="text-yellow-200/80 font-medium">Note:</strong> SkyVoiceCustomer Agency forwards complaints to airlines. Resolution is handled by the airline directly.</p>
+                    </div>
                 </div>
                 <div>
                     <h4 class="text-sm font-medium mb-4">Quick Links</h4>
@@ -561,7 +622,7 @@
                 </div>
             </div>
             <div class="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-xs text-neutral-600">&copy; 2025 SkyResolve. All rights reserved.</p>
+                <p class="text-xs text-neutral-600">&copy; 2025 SkyVoiceCustomer Agency. All rights reserved.</p>
                 <div class="flex items-center gap-4">
                     <span class="flex items-center gap-1.5 text-xs text-neutral-600">
                         <svg class="w-3.5 h-3.5 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
@@ -580,8 +641,12 @@
                 <svg class="w-10 h-10 text-green-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
             </div>
             <h3 class="text-2xl font-semibold mb-3">Complaint Submitted!</h3>
-            <p class="text-sm text-neutral-400 font-light leading-relaxed mb-2">Your complaint has been successfully filed and forwarded to the airline's customer relations department.</p>
-            <p class="text-xs text-neutral-500 mb-8">A confirmation has been sent to your email address.</p>
+            <p class="text-sm text-neutral-400 font-light leading-relaxed mb-2">Your complaint has been successfully filed and will be formally forwarded to the airline's customer relations department by SkyVoiceCustomer Agency.</p>
+            <p class="text-xs text-neutral-500 mb-4">The airline will review your case and work toward resolving your issue. A confirmation has been sent to your email address.</p>
+            <div class="bg-blue-500/5 border border-blue-500/15 rounded-xl p-3 mb-6 flex items-start gap-2.5">
+                <svg class="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <p class="text-xs text-blue-200/70 font-light leading-relaxed">SkyVoiceCustomer Agency will forward your complaint to the airline. The airline handles the resolution process directly.</p>
+            </div>
             <button onclick="closeModal()" class="btn-primary w-full py-3.5 rounded-2xl text-sm font-semibold text-white">Done</button>
         </div>
     </div>
@@ -621,7 +686,7 @@ const airlines = [
     {name:"Africana Airways",code:"9U",region:"Africa"},
     {name:"Taag Angola Airlines",code:"DT",region:"Africa"},
 
-    // ASIA
+    // MIDDLE EAST
     {name:"Emirates",code:"EK",region:"Middle East"},
     {name:"Qatar Airways",code:"QR",region:"Middle East"},
     {name:"Etihad Airways",code:"EY",region:"Middle East"},
@@ -648,7 +713,7 @@ const airlines = [
     {name:"Cyprus Turkish Airlines",code:"YK",region:"Middle East"},
     {name:"Cyprus Airways",code:"CY",region:"Middle East"},
 
-    // ASIA (Continental)
+    // ASIA
     {name:"Singapore Airlines",code:"SQ",region:"Asia"},
     {name:"Cathay Pacific",code:"CX",region:"Asia"},
     {name:"ANA All Nippon Airways",code:"NH",region:"Asia"},
@@ -693,14 +758,11 @@ const airlines = [
     {name:"China Airlines",code:"CI",region:"Asia"},
     {name:"EVA Air",code:"BR",region:"Asia"},
     {name:"Starlux Airlines",code:"JX",region:"Asia"},
-    {name:"Peach Aviation",code:"MM",region:"Asia"},
     {name:"Solaseed Air",code:"6J",region:"Asia"},
     {name:"Air Do",code:"HD",region:"Asia"},
     {name:"Skymark Airlines",code:"BC",region:"Asia"},
     {name:"Star Flyer",code:"7G",region:"Asia"},
-    {name:"IBERIA",code:"IB",region:"Europe"},
     {name:"Biman Bangladesh",code:"BG",region:"Asia"},
-    {name:"Mihin Lanka",code:"UL",region:"Asia"},
     {name:"SriLankan Airlines",code:"UL",region:"Asia"},
     {name:"Drukair",code:"KB",region:"Asia"},
     {name:"Nepal Airlines",code:"RA",region:"Asia"},
@@ -710,11 +772,8 @@ const airlines = [
     {name:"Air Astana",code:"KC",region:"Asia"},
     {name:"Kam Air",code:"RQ",region:"Asia"},
     {name:"Ariana Afghan",code:"FG",region:"Asia"},
-    {name:"Mandala Airlines",code:"RI",region:"Asia"},
-    {name:"Merpati Nusantara",code:"MZ",region:"Asia"},
     {name:"Royal Brunei",code:"BI",region:"Asia"},
     {name:"Myanmar Airways",code:"UB",region:"Asia"},
-    {name:"Air Mandalay",code:"6T",region:"Asia"},
     {name:"Lao Airlines",code:"QV",region:"Asia"},
     {name:"Cambodia Angkor Air",code:"K6",region:"Asia"},
 
@@ -747,16 +806,13 @@ const airlines = [
     {name:"Eurowings",code:"EW",region:"Europe"},
     {name:"Condor",code:"DE",region:"Europe"},
     {name:"Corendon Airlines",code:"XC",region:"Europe"},
-    {name:"SunExpress",code:"XQ",region:"Europe"},
     {name:"Smartwings",code:"QS",region:"Europe"},
     {name:"Air Serbia",code:"JU",region:"Europe"},
     {name:"Montenegro Airlines",code:"YM",region:"Europe"},
     {name:"Air Malta",code:"KM",region:"Europe"},
-    {name:"Cyprus Airways",code:"CY",region:"Europe"},
     {name:"Olympic Air",code:"OA",region:"Europe"},
     {name:"Aegean Airlines",code:"A3",region:"Europe"},
     {name:"Helvetic Airways",code:"2L",region:"Europe"},
-    {name:"Baltia Air Lines",code:"4B",region:"Europe"},
     {name:"Blue Air",code:"0B",region:"Europe"},
     {name:"Tarom",code:"RO",region:"Europe"},
     {name:"Bulgaria Air",code:"FB",region:"Europe"},
@@ -774,12 +830,14 @@ const airlines = [
     {name:"Ukraine International",code:"PS",region:"Europe"},
     {name:"Windrose Airlines",code:"7W",region:"Europe"},
     {name:"SkyUp Airlines",code:"PQ",region:"Europe"},
-    {name:"Flydubai",code:"FZ",region:"Europe"},
     {name:"Play Airlines",code:"OG",region:"Europe"},
     {name:"Volotea",code:"V7",region:"Europe"},
     {name:"HiSky",code:"H4",region:"Europe"},
-    {name:"Animawings",code:"A2",region:"Europe"},
     {name:"Binter Canarias",code:"NT",region:"Europe"},
+    {name:"Loganair",code:"LM",region:"Europe"},
+    {name:"Eastern Airways",code:"T3",region:"Europe"},
+    {name:"CityJet",code:"WX",region:"Europe"},
+    {name:"Smartlynx Airlines",code:"6Y",region:"Europe"},
 
     // NORTH AMERICA
     {name:"Delta Air Lines",code:"DL",region:"North America"},
@@ -805,9 +863,7 @@ const airlines = [
     {name:"Volaris",code:"Y4",region:"North America"},
     {name:"Aeromexico",code:"AM",region:"North America"},
     {name:"Interjet",code:"4O",region:"North America"},
-    {name:"Magnicharters",code:"6U",region:"North America"},
     {name:"Cubana de Aviacion",code:"CU",region:"North America"},
-    {name:"Air Panama",code:"7P",region:"North America"},
     {name:"Copa Airlines",code:"CM",region:"North America"},
     {name:"Avianca",code:"AV",region:"North America"},
     {name:"TACA Airlines",code:"TA",region:"North America"},
@@ -818,9 +874,6 @@ const airlines = [
     {name:"Air Greenland",code:"GL",region:"North America"},
     {name:"First Air",code:"7F",region:"North America"},
     {name:"Canadian North",code:"5T",region:"North America"},
-    {name:"Nolinor Aviation",code:"N4",region:"North America"},
-    {name:"Pascan Aviation",code:"P6",region:"North America"},
-    {name:"EvoAir",code:"EV",region:"North America"},
 
     // SOUTH AMERICA
     {name:"LATAM Airlines",code:"LA",region:"South America"},
@@ -830,25 +883,15 @@ const airlines = [
     {name:"Avianca Brasil",code:"O6",region:"South America"},
     {name:"Sky Airline",code:"H2",region:"South America"},
     {name:"JetSMART",code:"JA",region:"South America"},
-    {name:"Dolphin Air",code:"4D",region:"South America"},
     {name:"Aerolineas Argentinas",code:"AR",region:"South America"},
     {name:"Austral Lineas",code:"AU",region:"South America"},
     {name:"Andes Lineas",code:"OY",region:"South America"},
-    {name:"Avianca Ecuador",code:"AV",region:"South America"},
     {name:"TAME",code:"EQ",region:"South America"},
-    {name:"Equair",code:"KM",region:"South America"},
     {name:"SATENA",code:"9R",region:"South America"},
-    {name:"Avianca Peru",code:"AV",region:"South America"},
-    {name:"Peruvian Airlines",code:"P9",region:"South America"},
-    {name:"LC Peru",code:"W4",region:"South America"},
-    {name:"Star Peru",code:"2I",region:"South America"},
     {name:"Boliviana de Aviacion",code:"OB",region:"South America"},
     {name:"Amaszonas",code:"Z8",region:"South America"},
-    {name:"Aerocon",code:"A4",region:"South America"},
     {name:"Surinam Airways",code:"PY",region:"South America"},
-    {name:"Gum Air",code:"G8",region:"South America"},
     {name:"Fly All Ways",code:"8W",region:"South America"},
-    {name:"MAP Airlines",code:"9M",region:"South America"},
 
     // OCEANIA
     {name:"Qantas",code:"QF",region:"Oceania"},
@@ -860,7 +903,6 @@ const airlines = [
     {name:"Air New Zealand",code:"NZ",region:"Oceania"},
     {name:"Air Chathams",code:"3C",region:"Oceania"},
     {name:"Sounds Air",code:"S8",region:"Oceania"},
-    {name:"Originair",code:"O6",region:"Oceania"},
     {name:"Fiji Airways",code:"FJ",region:"Oceania"},
     {name:"Air Niugini",code:"PX",region:"Oceania"},
     {name:"Airlines PNG",code:"CG",region:"Oceania"},
@@ -875,40 +917,24 @@ const airlines = [
     {name:"Air Marshall Islands",code:"CW",region:"Oceania"},
     {name:"Nauru Airlines",code:"ON",region:"Oceania"},
     {name:"Air Palau",code:"7P",region:"Oceania"},
-    {name:"Air Micronesia",code:"3D",region:"Oceania"},
     {name:"Air Calédonie",code:"TY",region:"Oceania"},
 
-    // Extra / Charter / Cargo mixed
+    // Extra
     {name:"Norwegian Long Haul",code:"DI",region:"Europe"},
     {name:"Flybe",code:"BE",region:"Europe"},
-    {name:"Loganair",code:"LM",region:"Europe"},
-    {name:"Eastern Airways",code:"T3",region:"Europe"},
-    {name:"Stobart Air",code:"RE",region:"Europe"},
-    {name:"CityJet",code:"WX",region:"Europe"},
-    {name:"ASL Airlines France",code:"5O",region:"Europe"},
-    {name:"ASL Airlines Ireland",code:"AG",region:"Europe"},
-    {name:"Smartlynx Airlines",code:"6Y",region:"Europe"},
-    {name:"Aviator Airways",code:"M2",region:"Europe"},
-    {name:"Buddha Air",code:"U4",region:"Asia"},
-    {name:"Himalaya Airlines",code:"H9",region:"Asia"},
-    {name:"Vistara",code:"UK",region:"Asia"},
     {name:"GoAir",code:"G8",region:"Asia"},
     {name:"AirAsia India",code:"I5",region:"Asia"},
     {name:"Alliance Air",code:"9I",region:"Asia"},
     {name:"TruJet",code:"2T",region:"Asia"},
-    {name:"SpiceJet",code:"SG",region:"Asia"},
     {name:"Akasa Air",code:"QP",region:"Asia"},
     {name:"ZIPAIR",code:"ZG",region:"Asia"},
     {name:"Air Busan",code:"BX",region:"Asia"},
     {name:"Air Seoul",code:"RS",region:"Asia"},
-    {name:"Tway Air",code:"TW",region:"Asia"},
-    {name:"Korean Air Express",code:"KE",region:"Asia"},
+    {name:"Fuji Dream Airlines",code:"JH",region:"Asia"},
+    {name:"Himalaya Airlines",code:"H9",region:"Asia"},
     {name:"Miyazaki Airline",code:"6D",region:"Asia"},
     {name:"Amakusa Airlines",code:"MZ",region:"Asia"},
     {name:"Oriental Air Bridge",code:"OC",region:"Asia"},
-    {name:"New Central Air",code:"3C",region:"Asia"},
-    {name:"Air Do",code:"HD",region:"Asia"},
-    {name:"Fuji Dream Airlines",code:"JH",region:"Asia"},
 ];
 
 // Remove duplicates
@@ -1075,14 +1101,12 @@ const submitSpinner = document.getElementById('submit-spinner');
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // Validate airline selection
     if (!selectedAirline.value) {
         showToast('Please select an airline from the list', 'warning');
         airlineSearch.focus();
         return;
     }
 
-    // Show loading
     submitBtn.disabled = true;
     submitText.textContent = 'Submitting...';
     submitSpinner.classList.remove('hidden');
@@ -1159,7 +1183,6 @@ regionBtns.forEach(btn => {
         btn.style.border = '1px solid transparent';
         renderAirlineGrid(btn.dataset.region);
     });
-    // Initial styling
     if (btn.classList.contains('active')) {
         btn.style.background = 'linear-gradient(135deg, #2563eb, #4f46e5)';
         btn.style.color = '#fff';
@@ -1187,7 +1210,6 @@ function animateCounter(el, target, suffix = '', duration = 2000) {
     }, 16);
 }
 
-// Intersection observer for stats
 const statsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
