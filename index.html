@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkyVoice — Global Airline Complaint Portal</title>
+<meta name="description" content="File a formal complaint with any airline worldwide. Fast, secure, and free.">
+<style>
+:root{
+  --navy:#0a1f44; --navy2:#122b5c; --blue:#2563eb; --sky:#38bdf8;
+  --gold:#f59e0b; --bg:#f4f7fb; --card:#ffffff; --text:#1e293b; --muted:#64748b;
+  --radius:16px; --shadow:0 10px 30px rgba(10,31,68,.10);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+img{max-width:100%}
+.container{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* ---------- NAV ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,31,68,.92);backdrop-filter:blur(12px);transition:box-shadow .3s}
+nav.scrolled{box-shadow:0 4px 20px rgba(0,0,0,.25)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:700;font-size:1.25rem;text-decoration:none}
+.logo svg{width:30px;height:30px}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:#dbe4f3;text-decoration:none;font-size:.95rem;transition:color .25s;position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:2px;background:var(--sky);transition:width .3s}
+.nav-links a:hover{color:#fff}.nav-links a:hover::after{width:100%}
+.burger{display:none;background:none;border:none;cursor:pointer}
+.burger svg{width:28px;height:28px;stroke:#fff}
+.mobile-menu{display:none;flex-direction:column;background:var(--navy);padding:10px 20px 20px;gap:14px}
+.mobile-menu a{color:#dbe4f3;text-decoration:none}
+.mobile-menu.open{display:flex}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;overflow:hidden;
+  background:linear-gradient(135deg,#0a1f44 0%,#123a7a 45%,#1d5fbf 100%)}
+.hero::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 20% 30%,rgba(56,189,248,.25),transparent 40%),
+             radial-gradient(circle at 80% 70%,rgba(245,158,11,.15),transparent 45%);
+  animation:drift 12s ease-in-out infinite alternate}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(-40px,30px)}}
+.hero-content{position:relative;z-index:2;padding:120px 20px 60px;max-width:800px}
+.hero h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;line-height:1.15;margin-bottom:18px}
+.hero h1 span{background:linear-gradient(90deg,var(--sky),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:clamp(1rem,2.5vw,1.2rem);color:#c7d6ee;max-width:600px;margin:0 auto 32px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 32px;border-radius:50px;font-weight:600;font-size:1rem;text-decoration:none;border:none;cursor:pointer;transition:transform .25s,box-shadow .25s}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:linear-gradient(90deg,var(--blue),var(--sky));color:#fff;box-shadow:0 8px 24px rgba(37,99,235,.4)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(37,99,235,.5)}
+.btn-gold{background:var(--gold);color:#3a2703;box-shadow:0 8px 24px rgba(245,158,11,.35)}
+.btn-gold:hover{transform:translateY(-3px)}
+.hero-stats{display:flex;justify-content:center;gap:40px;margin-top:56px;flex-wrap:wrap}
+.stat b{display:block;font-size:1.9rem;color:var(--sky)}
+.stat span{font-size:.85rem;color:#aebfd9}
+.hero-plane{position:absolute;top:18%;left:-120px;width:120px;opacity:.35;animation:fly 18s linear infinite}
+@keyframes fly{0%{transform:translateX(-120px) translateY(0) rotate(8deg)}100%{transform:translateX(110vw) translateY(-60px) rotate(8deg)}}
+
+/* ---------- SECTIONS ---------- */
+section{padding:80px 0}
+.section-title{text-align:center;margin-bottom:48px}
+.section-title h2{font-size:clamp(1.7rem,4vw,2.4rem);color:var(--navy)}
+.section-title p{color:var(--muted);margin-top:10px;max-width:600px;margin-left:auto;margin-right:auto}
+
+/* cards / steps */
+.grid{display:grid;gap:24px}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.card{background:var(--card);border-radius:var(--radius);padding:32px;box-shadow:var(--shadow);transition:transform .3s,box-shadow .3s;border-top:4px solid transparent}
+.card:hover{transform:translateY(-8px);box-shadow:0 18px 40px rgba(10,31,68,.16);border-top-color:var(--sky)}
+.card .icon{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,#eaf2ff,#e0f5ff);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.card .icon svg{width:28px;height:28px;stroke:var(--blue)}
+.card h3{margin-bottom:8px;font-size:1.15rem;color:var(--navy)}
+.card p{color:var(--muted);font-size:.95rem}
+
+/* ---------- FORM ---------- */
+.form-section{background:linear-gradient(180deg,var(--bg),#e8eef8)}
+.form-card{background:#fff;border-radius:24px;box-shadow:var(--shadow);padding:clamp(24px,5vw,48px);max-width:760px;margin:0 auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-grid .full{grid-column:1/-1}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+label{display:block;font-weight:600;font-size:.88rem;margin-bottom:6px;color:var(--navy)}
+.input-wrap{position:relative}
+.input-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--muted);pointer-events:none}
+input,select,textarea{width:100%;padding:13px 14px 13px 44px;border:2px solid #e2e8f0;border-radius:12px;font-size:.95rem;font-family:inherit;background:#f8fafc;transition:border .25s,box-shadow .25s,background .25s;color:var(--text)}
+textarea{padding-left:14px;resize:vertical;min-height:130px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);background:#fff;box-shadow:0 0 0 4px rgba(37,99,235,.12)}
+select{appearance:none;cursor:pointer}
+.select-arrow{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--muted);pointer-events:none}
+.char-count{font-size:.75rem;color:var(--muted);text-align:right;margin-top:4px}
+.error-msg{color:#dc2626;font-size:.78rem;margin-top:4px;display:none}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:#dc2626}
+.field.invalid .error-msg{display:block}
+.checkbox-row{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:var(--muted)}
+.checkbox-row input{width:auto;margin-top:3px;padding:0;accent-color:var(--blue)}
+.submit-btn{width:100%;justify-content:center;font-size:1.05rem;margin-top:8px}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none!important}
+
+/* airline results */
+.airline-results{max-height:220px;overflow-y:auto;border:2px solid #e2e8f0;border-radius:12px;margin-top:6px;display:none;background:#fff}
+.airline-results.show{display:block;animation:fadeUp .25s ease}
+.airline-item{padding:11px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:background .2s;border-bottom:1px solid #f1f5f9}
+.airline-item:hover{background:#eff6ff}
+.airline-item .code{background:var(--navy);color:#fff;font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:6px;letter-spacing:1px}
+.airline-item .country{margin-left:auto;font-size:.78rem;color:var(--muted)}
+
+/* toast + success */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--navy);color:#fff;padding:14px 26px;border-radius:50px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:200;transition:transform .4s cubic-bezier(.2,.9,.3,1.2);display:flex;align-items:center;gap:10px;font-size:.9rem;max-width:90vw}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.success svg{stroke:#4ade80}.toast.error svg{stroke:#f87171}
+#successPanel{display:none;text-align:center;padding:20px 0}
+#successPanel .big-check{width:84px;height:84px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;animation:pop .5s cubic-bezier(.2,1.4,.4,1)}
+#successPanel .big-check svg{width:44px;height:44px;stroke:#16a34a}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+
+/* coverage / faq */
+.region-tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.region-tag{background:#fff;border:1px solid #dbe4f0;padding:8px 18px;border-radius:50px;font-size:.85rem;color:var(--navy);font-weight:600;box-shadow:0 2px 8px rgba(10,31,68,.06);transition:transform .25s,background .25s,color .25s;cursor:default}
+.region-tag:hover{transform:translateY(-4px);background:var(--navy);color:#fff}
+details{background:#fff;border-radius:14px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+summary{padding:18px 24px;font-weight:600;cursor:pointer;color:var(--navy);list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::after{content:"+";font-size:1.4rem;color:var(--blue);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{padding:0 24px 20px;color:var(--muted);font-size:.92rem}
+
+/* footer */
+footer{background:var(--navy);color:#9db1cf;padding:56px 0 28px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:36px}
+@media(max-width:720px){.footer-grid{grid-template-columns:1fr}}
+footer h4{color:#fff;margin-bottom:14px;font-size:1rem}
+footer a{color:#9db1cf;text-decoration:none;display:block;margin-bottom:8px;font-size:.9rem;transition:color .25s}
+footer a:hover{color:var(--sky)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:22px;text-align:center;font-size:.8rem}
+
+/* reveal animation */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+      SkyVoice
+    </a>
+    <ul class="nav-links">
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#airlines">Airlines</a></li>
+      <li><a href="#complaint">File Complaint</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#how">How It Works</a><a href="#airlines">Airlines</a><a href="#complaint">File Complaint</a><a href="#faq">FAQ</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <svg class="hero-plane" viewBox="0 0 24 24" fill="#fff"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+  <div class="hero-content">
+    <h1>Your Flight Complaint,<br><span>Heard Worldwide.</span></h1>
+    <p>SkyVoice is an independent global portal for air passengers. File a formal complaint with any airline, anywhere in the world — quickly, securely, and free of charge.</p>
+    <a href="#complaint" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      File a Complaint
+    </a>
+    <div class="hero-stats">
+      <div class="stat"><b data-count="150">0</b><span>Airlines Listed</span></div>
+      <div class="stat"><b data-count="195">0</b><span>Countries Covered</span></div>
+      <div class="stat"><b>100%</b><span>Free to Use</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HOW IT WORKS ================= -->
+<section id="how">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>How It Works</h2>
+      <p>Three simple steps to make your voice heard.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+        <h3>1. Find Your Airline</h3>
+        <p>Search our directory of over 150 airlines from every region of the world by name or IATA code.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+        <h3>2. Provide Details</h3>
+        <p>Enter your booking reference, contact information and describe your experience in detail.</p>
+      </div>
+      <div class="card reveal">
+        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+        <h3>3. Complaint Delivered</h3>
+        <p>Your complaint is submitted securely and delivered directly to our complaint-handling team for routing to the airline.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AIRLINES ================= -->
+<section id="airlines" style="background:#fff">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>Browse Airlines Worldwide</h2>
+      <p>Start typing to instantly find your airline. All major carriers across Africa, the Americas, Asia-Pacific, Europe and the Middle East are listed.</p>
+    </div>
+    <div class="reveal" style="max-width:560px;margin:0 auto">
+      <div class="input-wrap" style="box-shadow:var(--shadow);border-radius:14px">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input id="airlineSearchTop" type="text" placeholder="Search airline (e.g. Emirates, BA, Qatar)…" autocomplete="off" style="border-radius:14px">
+      </div>
+      <div class="airline-results" id="airlineResultsTop"></div>
+    </div>
+    <div class="region-tags reveal" style="margin-top:36px">
+      <span class="region-tag">🌍 Africa</span><span class="region-tag">🌎 Americas</span><span class="region-tag">🌏 Asia-Pacific</span><span class="region-tag">🌍 Europe</span><span class="region-tag">🌍 Middle East</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPLAINT FORM ================= -->
+<section id="complaint" class="form-section">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>File Your Complaint</h2>
+      <p>All fields marked * are required. Your information is transmitted securely and used solely to process your complaint.</p>
+    </div>
+
+    <div class="form-card reveal">
+      <form id="complaintForm" novalidate>
+        <div class="form-grid">
+
+          <div class="field">
+            <label for="airline">Airline *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+              <input id="airline" name="airline" type="text" placeholder="Type to search airline…" autocomplete="off" required>
+              <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="airline-results" id="airlineResultsForm"></div>
+            <div class="error-msg">Please select an airline from the list.</div>
+          </div>
+
+          <div class="field">
+            <label for="bookingRef">Booking Reference / PNR *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 17v2M13 11v2"/></svg>
+              <input id="bookingRef" name="booking_reference" type="text" placeholder="e.g. ABC123" style="text-transform:uppercase" required>
+            </div>
+            <div class="error-msg">Please enter your booking reference.</div>
+          </div>
+
+          <div class="field">
+            <label for="fullName">Full Name *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <input id="fullName" name="full_name" type="text" placeholder="Your full name" required>
+            </div>
+            <div class="error-msg">Please enter your full name.</div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email Address (Gmail or other) *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+              <input id="email" name="email" type="email" placeholder="you@gmail.com" required>
+            </div>
+            <div class="error-msg">Please enter a valid email address.</div>
+          </div>
+
+          <div class="field">
+            <label for="phone">Phone Number (with country code) *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.37 1.6.72 2.34a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.74-1.29a2 2 0 0 1 2.11-.45c.74.35 1.53.6 2.34.72A2 2 0 0 1 22 16.92z"/></svg>
+              <input id="phone" name="phone" type="tel" placeholder="+1 555 000 1234" required>
+            </div>
+            <div class="error-msg">Please enter your phone number.</div>
+          </div>
+
+          <div class="field">
+            <label for="flightDate">Flight Date *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              <input id="flightDate" name="flight_date" type="date" required>
+            </div>
+            <div class="error-msg">Please select the flight date.</div>
+          </div>
+
+          <div class="field full">
+            <label for="flightRoute">Flight Number / Route (optional)</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+              <input id="flightRoute" name="flight_route" type="text" placeholder="e.g. EK 202, JFK → DXB">
+            </div>
+          </div>
+
+          <div class="field full">
+            <label for="complaintType">Complaint Category *</label>
+            <div class="input-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg>
+              <select id="complaintType" name="complaint_type" required>
+                <option value="">Select a category…</option>
+                <option>Flight Delay</option>
+                <option>Flight Cancellation</option>
+                <option>Lost / Damaged Baggage</option>
+                <option>Refund Issue</option>
+                <option>Customer Service</option>
+                <option>Overbooking / Denied Boarding</option>
+                <option>Seat / Cabin Issue</option>
+                <option>Accessibility / Special Assistance</option>
+                <option>Safety Concern</option>
+                <option>Other</option>
+              </select>
+              <svg class="select-arrow" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <div class="error-msg">Please select a category.</div>
+          </div>
+
+          <div class="field full">
+            <label for="complaintText">Complaint Details *</label>
+            <textarea id="complaintText" name="complaint_details" maxlength="3000" placeholder="Please describe your complaint in detail, including what happened, dates, times, staff involved and any evidence you may have…" required></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 3000</div>
+            <div class="error-msg">Please describe your complaint (minimum 20 characters).</div>
+          </div>
+
+          <div class="field full">
+            <label class="checkbox-row">
+              <input type="checkbox" id="consent" required>
+              <span>I confirm the information provided is accurate and I consent to it being shared with the relevant airline for the purpose of resolving this complaint. *</span>
+            </label>
+            <div class="error-msg">You must confirm before submitting.</div>
+          </div>
+
+          <div class="full">
+            <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Submit Complaint
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div id="successPanel">
+        <div class="big-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h3 style="color:var(--navy);margin-bottom:8px">Complaint Submitted Successfully</h3>
+        <p style="color:var(--muted);max-width:440px;margin:0 auto">Thank you. Your complaint has been received and a confirmation has been sent to your email address. Our team will route it to the airline concerned. Reference: <b id="refCode"></b></p>
+        <button class="btn btn-gold" style="margin-top:24px" onclick="resetForm()">File Another Complaint</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" style="background:#fff">
+  <div class="container" style="max-width:760px">
+    <div class="section-title reveal"><h2>Frequently Asked Questions</h2></div>
+    <details class="reveal"><summary>Is SkyVoice free to use?</summary><p>Yes. Filing a complaint through SkyVoice is completely free for passengers. We never charge fees or commissions.</p></details>
+    <details class="reveal"><summary>Which airlines can I complain about?</summary><p>Our directory includes over 150 airlines across Africa, the Americas, Asia-Pacific, Europe and the Middle East, from major international carriers to regional and low-cost airlines.</p></details>
+    <details class="reveal"><summary>What information should I include?</summary><p>Include your booking reference, flight date and number, a clear description of the issue, and any supporting details such as receipts, photos or correspondence with the airline.</p></details>
+    <details class="reveal"><summary>How long does a response take?</summary><p>Response times vary by airline. Many carriers respond within 14–30 days under applicable consumer-protection regulations such as EU 261/2004 or US DOT rules.</p></details>
+    <details class="reveal"><summary>Is my personal data safe?</summary><p>Your details are transmitted over an encrypted connection and shared only with the airline concerned for the purpose of resolving your complaint.</p></details>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a href="#" class="logo" style="margin-bottom:14px">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>
+          SkyVoice
+        </a>
+        <p style="font-size:.9rem">An independent global portal helping air passengers file formal complaints with airlines worldwide.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <a href="#how">How It Works</a><a href="#airlines">Airlines</a><a href="#complaint">File a Complaint</a><a href="#faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Regions</h4>
+        <a href="#airlines">Africa</a><a href="#airlines">Americas</a><a href="#airlines">Asia-Pacific</a><a href="#airlines">Europe</a><a href="#airlines">Middle East</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 SkyVoice. SkyVoice is an independent service and is not affiliated with any airline. All complaints are forwarded to the respective airline's customer relations channels.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg><span id="toastMsg"></span></div>
+
+<script>
+/* ================= AIRLINE DATABASE ================= */
+const AIRLINES = [
+["Aegean Airlines","A3","Greece"],["Aer Lingus","EI","Ireland"],["Aeroflot","SU","Russia"],["Aeroméxico","AM","Mexico"],
+["Afriqiyah Airways","8U","Libya"],["Air Africa","--","Multi"],["Air Algerie","AH","Algeria"],["Air Antilles","3S","Guadeloupe"],
+["Air Astana","KC","Kazakhstan"],["Air Atlantica","--","UK"],["Air Baltic","BT","Latvia"],["Air Botswana","BP","Botswana"],
+["Air Cairo","SM","Egypt"],["Air Canada","AC","Canada"],["Air Caribbean","--","Caribbean"],["Air China","CA","China"],
+["Air Corsica","XK","France"],["Air Dolomiti","EN","Italy"],["Air Europa","UX","Spain"],["Air Fiji","--","Fiji"],
+["Air France","AF","France"],["Air Greenland","GL","Greenland"],["Air India","AI","India"],["Air Jamaica","JM","Jamaica"],
+["Air Koryo","JS","North Korea"],["Air Labrador","WJ","Canada"],["Air Link","--","USA"],["Air Macau","NX","Macau"],
+["Air Madagascar","MD","Madagascar"],["Air Malawi","--","Malawi"],["Air Malta","KM","Malta"],["Air Mauritius","MK","Mauritius"],
+["Air Namibia","--","Namibia"],["Air New Zealand","NZ","New Zealand"],["Air Niugini","PX","Papua New Guinea"],["Air North","4N","Canada"],
+["Air Pacific / Fiji Airways","FJ","Fiji"],["Air Poland","--","Poland"],["Air Serbia","JU","Serbia"],["Air Seychelles","HM","Seychelles"],
+["Air Sierra Leone","--","Sierra Leone"],["Air Slovakia","--","Slovakia"],["Air Sweden","--","Sweden"],["Air Tahiti Nui","TN","French Polynesia"],
+["Air Tanzania","TC","Tanzania"],["Air Transat","TS","Canada"],["Air Uganda","--","Uganda"],["Air Zimbabwe","UM","Zimbabwe"],
+["AirAsia","AK","Malaysia"],["AirAsia India","IX","India"],["Airblue","PA","Pakistan"],["Alaska Airlines","AS","USA"],
+["Albanian Airlines","--","Albania"],["Aldabra Air","--","Seychelles"],["Allegiant Air","G4","USA"],["American Airlines","AA","USA"],
+["Amtrak Air","--","USA"],["ANA (All Nippon Airways)","NH","Japan"],["Andes Líneas Aéreas","--","Argentina"],["Arajet","DM","Dominican Republic"],
+["Ariana Afghan Airlines","FG","Afghanistan"],["Armenia Aircompany","--","Armenia"],["Arnoro","--","Angola"],["Astral Aviation","--","Kenya"],
+["Atlantic Airways","RC","Faroe Islands"],["Atlas Air","5Y","USA"],["Austrian Airlines","OS","Austria"],["Avianca","AV","Colombia"],
+["Azerbaijan Airlines","J2","Azerbaijan"],["Azul Brazilian Airlines","AD","Brazil"],["Badr Airlines","J4","Sudan"],["Bahamasair","UP","Bahamas"],
+["Bangkok Airways","PG","Thailand"],["Bator Bangla Airlines","--","Bangladesh"],["Batik Air","ID","Indonesia"],["Beijing Capital Airlines","JD","China"],
+["Belle Air","--","Albania"],["Bemol Air","--","Brazil"],["Biman Bangladesh Airlines","BG","Bangladesh"],["Blue Air","0B","Romania"],
+["Blue Panorama Airlines","BV","Italy"],["Bluebird Airways","BZ","Israel"],["Boliviana de Aviación","OB","Bolivia"],["Bouraq Indonesia Airlines","--","Indonesia"],
+["British Airways","BA","United Kingdom"],["Brussels Airlines","SN","Belgium"],["Buddha Air","U4","Nepal"],["Bulgaria Air","FB","Bulgaria"],
+["Calm Air","--","Canada"],["Cambodia Angkor Air","K6","Cambodia"],["Camair-Co","QC","Cameroon"],["Canadian North","5T","Canada"],
+["Cape Air","9K","USA"],["Caribbean Airlines","BW","Trinidad & Tobago"],["Carpatair","--","Romania"],["Cathay Pacific","CX","Hong Kong"],
+["Cayman Airways","KX","Cayman Islands"],["Cebu Pacific","5J","Philippines"],["Central American Airways","--","Honduras"],["Cham Wings Airlines","--","Syria"],
+["Chengdu Airlines","--","China"],["China Airlines","CI","Taiwan"],["China Eastern Airlines","MU","China"],["China Southern Airlines","CZ","China"],
+["CityJet","--","Ireland"],["Comair","--","South Africa"],["Condor","DE","Germany"],["Copa Airlines","CM","Panama"],
+["Corendon Airlines","XC","Turkey"],["Corsair International","SS","France"],["Croatia Airlines","OU","Croatia"],["Cubana de Aviación","CU","Cuba"],
+["Cyprus Airways","--","Cyprus"],["Czech Airlines","OK","Czech Republic"],["DAL (Darwin Airline)","--","Switzerland"],["Daallo Airlines","D3","Somalia"],
+["Dagestan Airlines","--","Russia"],["Delta Air Lines","DL","USA"],["Delta Connection","--","USA"],["DHL Aviation","--","Multi"],
+["Druk Air","KB","Bhutan"],["Eagle Air","--","Uganda"],["EgyptAir","MS","Egypt"],["El Al","LY","Israel"],
+["Emirates","EK","United Arab Emirates"],["Enter Air","--","Poland"],["Equatorial Congo Airlines","--","DR Congo"],["Estonian Air","--","Estonia"],
+["Ethiopian Airlines","ET","Ethiopia"],["Etihad Airways","EY","United Arab Emirates"],["EuroAtlantic Airways","--","Portugal"],["Europe Airpost","--","France"],
+["EVA Air","BR","Taiwan"],["Evelop Airlines","--","Spain"],["Federal Airlines","--","South Africa"],["Fiji Airways","FJ","Fiji"],
+["Finnair","AY","Finland"],["First Air","7F","Canada"],["Flair Airlines","F8","Canada"],["Flybe","--","United Kingdom"],
+["FlyDubai","FZ","United Arab Emirates"],["FlyEgypt","FT","Egypt"],["FlyOne","--","Moldova"],["FlySafair","--","South Africa"],
+["FlyScoot (Scoot)","TR","Singapore"],["Freebird Airlines","--","Turkey"],["Frontier Airlines","F9","USA"],["Fujairah Airlines","--","UAE"],
+["Garuda Indonesia","GA","Indonesia"],["Ghana International Airlines","--","Ghana"],["Gol Transportes Aéreos","G3","Brazil"],["Great Lakes Airlines","--","USA"],
+["Gulf Air","GF","Bahrain"],["Hainan Airlines","HU","China"],["Hawaiian Airlines","HA","USA"],["Hewa Bora Airways","--","DR Congo"],
+["Himalaya Airlines","--","Nepal"],["Hong Kong Airlines","HX","Hong Kong"],["Hongtu Airlines","--","China"],["Iberojet","--","Spain"],
+["Icelandair","FI","Iceland"],["IndiGo","6E","India"],["InterJet","--","Mexico"],["Iraqi Airways","IA","Iraq"],
+["Irkut Corporation","--","Russia"],["Island Air","--","USA"],["Israir","6H","Israel"],["Japan Airlines","JL","Japan"],
+["Jet2","LS","United Kingdom"],["JetBlue Airways","B6","USA"],["Jet Airways","--","India"],["Jetstar Airways","JQ","Australia"],
+["Jin Air","LJ","South Korea"],["Juneyao Air","HO","China"],["Kam Air","RQ","Afghanistan"],["Kenya Airways","KQ","Kenya"],
+["Kish Air","--","Iran"],["KLM","KL","Netherlands"],["Korean Air","KE","South Korea"],["Kulula","--","South Africa"],
+["Kuwait Airways","KU","Kuwait"],["LADE","--","Argentina"],["LAM Mozambique Airlines","TM","Mozambique"],["LAN Airlines (LATAM)","LA","Chile"],
+["Lao Airlines","QV","Laos"],["LATAM Airlines","LA","Chile/Brazil"],["LATAM Ecuador","XL","Ecuador"],["LatPass","--","Latvia"],
+["Leonardo Airlines","--","Israel"],["Level","IB","Spain"],["Lion Air","JT","Indonesia"],["LOT Polish Airlines","LO","Poland"],
+["Lufthansa","LH","Germany"],["Luxair","LG","Luxembourg"],["Lynx Air","--","Canada"],["Mahan Air","W5","Iran"],
+["Malaysia Airlines","MH","Malaysia"],["Maldivian","Q2","Maldives"],["Malta Air","--","Malta"],["Mandarin Airlines","AE","Taiwan"],
+["Mawanella Air","--","Sri Lanka"],["MEA (Middle East Airlines)","ME","Lebanon"],["Meridian Fly","--","Iraq"],["Mesa Airlines","--","USA"],
+["Miami Air International","--","USA"],["MidEast Jet","--","Saudi Arabia"],["MIAT Mongolian Airlines","OM","Mongolia"],["Moldaeroservice","--","Moldova"],
+["Monarch Airlines","--","United Kingdom"],["Montenegro Airlines","--","Montenegro"],["Myanmar Airways International","8M","Myanmar"],["MyAirline","--","Malaysia"],
+["Nepal Airlines","RA","Nepal"],["Niger Air","--","Niger"],["Nile Air","NP","Egypt"],["Nok Air","DD","Thailand"],
+["Nordic Regional","--","Estonia"],["Nordwind Airlines","N4","Russia"],["North West Airlines","--","USA (legacy)"],["Norwegian Air Shuttle","DY","Norway"],
+["Nouvelair","BJ","Tunisia"],["Oman Air","WY","Oman"],["Onur Air","--","Turkey"],["Orenair","--","Russia"],
+["Orient Thai Airlines","--","Thailand"],["Ottawa Airlines","--","Canada"],["Pacific Air Express","--","Australia"],["Pakistan International Airlines","PK","Pakistan"],
+["Palestinian Airlines","--","Palestine"],["Papillon Grand Canyon Helicopters","--","USA"],["Peach Aviation","MM","Japan"],["Pelita Air Service","--","Indonesia"],
+["Peruvian Airlines","--","Peru"],["Philippine Airlines","PR","Philippines"],["Piedmont Airlines","--","USA"],["PLUNA","--","Uruguay"],
+["Polynesian Airlines","--","Samoa"],["Portugalia","--","Portugal"],["Precision Air","PW","Tanzania"],["Primera Air","--","Denmark"],
+["Qantas","QF","Australia"],["Qatar Airways","QR","Qatar"],["RwandAir","WB","Rwanda"],["Ryanair","FR","Ireland"],
+["S7 Airlines","S7","Russia"],["SalamAir","OV","Oman"],["SAS (Scandinavian Airlines)","SK","Sweden/Denmark/Norway"],["Saudia","SV","Saudi Arabia"],
+["Senegal Airlines","--","Senegal"],["Shandong Airlines","SC","China"],["Shanghai Airlines","FM","China"],["Shenzhen Airlines","ZH","China"],
+["Sichuan Airlines","3U","China"],["Singapore Airlines","SQ","Singapore"],["Sky Airline","H2","Chile"],["Sky Express","--","Greece"],
+["SkyGreece Airlines","--","Greece"],["Skywest Airlines","--","Australia"],["SmartWings","--","Czech Republic"],["Somali Airlines","--","Somalia"],
+["South African Airways","SA","South Africa"],["Southwest Airlines","WN","USA"],["SpiceJet","SG","India"],["Spirit Airlines","NK","USA"],
+["SriLankan Airlines","UL","Sri Lanka"],["Star Air","--","India"],["Sudan Airways","SD","Sudan"],["Sun Country Airlines","SY","USA"],
+["SunExpress","XQ","Turkey"],["Sunwing Airlines","WG","Canada"],["Surinam Airways","PY","Suriname"],["Swiss International Air Lines","LX","Switzerland"],
+["Syphax Airlines","--","Tunisia"],["TAAG Angola Airlines","DT","Angola"],["Tam Linhas Aéreas (LATAM)","--","Brazil"],["TAP Air Portugal","TP","Portugal"],
+["Tarom","RO","Romania"],["Thai AirAsia","FD","Thailand"],["Thai Airways","TG","Thailand"],["Thai Lion Air","SL","Thailand"],
+["Thai Smile","WE","Thailand"],["Tibesti Air Chad","--","Chad"],["Tigerair","--","Singapore/Australia"],["TUI Airways","BY","United Kingdom"],
+["Tunisair","TU","Tunisia"],["Turkish Airlines","TK","Turkey"],["Turkmenistan Airlines","T5","Turkmenistan"],["Uganda Airlines","UR","Uganda"],
+["Ukraine International Airlines","PS","Ukraine"],["Ukraine Air Alliance","--","Ukraine"],["United Airways","--","Bangladesh"],["United Airlines","UA","USA"],
+["Ural Airlines","U6","Russia"],["US Airways","--","USA (legacy)"],["Uzbekistan Airways","HY","Uzbekistan"],["Vietnam Airlines","VN","Vietnam"],
+["VietJet Air","VJ","Vietnam"],["Virgin Atlantic","VS","United Kingdom"],["Virgin Australia","VA","Australia"],["Visa Airways","--","Bulgaria"],
+["Vistara","UK","India"],["Viva Aerobus","VB","Mexico"],["Volaris","Y4","Mexico"],["Volotea","V7","Spain"],
+["Vueling","VY","Spain"],["WestJet","WS","Canada"],["Widerøe","WF","Norway"],["Wingo","P5","Colombia"],
+["Wizz Air","W6","Hungary"],["Wow Air","--","Iceland"],["XiamenAir","MF","China"],["Yemenia","IY","Yemen"],
+["Zambian Airways","--","Zambia"],["ZanAir","--","Tanzania"]
+].map(a => ({name:a[0], code:a[1], country:a[2]}));
+
+/* ================= SEARCH ================= */
+const resultsTop = document.getElementById('airlineResultsTop');
+const resultsForm = document.getElementById('airlineResultsForm');
+const searchTop = document.getElementById('airlineSearchTop');
+const airlineInput = document.getElementById('airline');
+
+function renderResults(list, container, onPick){
+  container.innerHTML = '';
+  if(!list.length){ container.innerHTML = '<div class="airline-item" style="cursor:default;color:var(--muted)">No airline found — try another name or code.</div>'; }
+  list.slice(0,12).forEach(a=>{
+    const div = document.createElement('div');
+    div.className = 'airline-item';
+    div.innerHTML = `<span class="code">${a.code}</span><span>${a.name}</span><span class="country">${a.country}</span>`;
+    div.addEventListener('click',()=>{ onPick(a); container.classList.remove('show'); });
+    container.appendChild(div);
+  });
+  container.classList.add('show');
+}
+function filter(q){
+  q = q.trim().toLowerCase();
+  if(q.length < 1) return [];
+  return AIRLINES.filter(a => a.name.toLowerCase().includes(q) || a.code.toLowerCase() === q || a.country.toLowerCase().includes(q));
+}
+searchTop.addEventListener('input', ()=>{
+  const q = searchTop.value;
+  if(!q.trim()){ resultsTop.classList.remove('show'); return; }
+  const list = filter(q);
+  if(!list.length){ resultsTop.classList.remove('show'); return; }
+  renderResults(list, resultsTop, a=>{
+    searchTop.value = a.name;
+    airlineInput.value = a.name;
+    document.getElementById('complaint').scrollIntoView({behavior:'smooth'});
+  });
+});
+airlineInput.addEventListener('input', ()=>{
+  const q = airlineInput.value;
+  if(!q.trim()){ resultsForm.classList.remove('show'); return; }
+  renderResults(filter(q), resultsForm, a=>{
+    airlineInput.value = a.name;
+    clearInvalid(airlineInput.closest('.field'));
+  });
+});
+document.addEventListener('click', e=>{
+  if(!e.target.closest('.input-wrap') && !e.target.closest('.airline-results')){
+    resultsTop.classList.remove('show'); resultsForm.classList.remove('show');
+  }
+});
+
+/* ================= NAV ================= */
+const navbar = document.getElementById('navbar');
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+window.addEventListener('scroll', ()=> navbar.classList.toggle('scrolled', window.scrollY > 40));
+burger.addEventListener('click', ()=> mobileMenu.classList.toggle('open'));
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+
+/* ================= REVEAL + COUNTERS ================= */
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); }});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+const statObserver = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const el = e.target, target = +el.dataset.count; let cur = 0;
+    const step = Math.max(1, Math.floor(target/60));
+    const t = setInterval(()=>{ cur += step; if(cur>=target){cur=target;clearInterval(t);} el.textContent = cur+'+'; }, 25);
+    statObserver.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>statObserver.observe(el));
+
+/* ================= FORM ================= */
+const form = document.getElementById('complaintForm');
+const textarea = document.getElementById('complaintText');
+const charCount = document.getElementById('charCount');
+textarea.addEventListener('input', ()=> charCount.textContent = textarea.value.length);
+
+function setInvalid(el){ el.closest('.field').classList.add('invalid'); }
+function clearInvalid(field){ field.classList.remove('invalid'); }
+form.querySelectorAll('input,select,textarea').forEach(el=>{
+  el.addEventListener('input', ()=> el.closest('.field')?.classList.remove('invalid'));
+});
+
+const toast = document.getElementById('toast');
+function showToast(msg, ok=true){
+  document.getElementById('toastMsg').textContent = msg;
+  toast.classList.toggle('error', !ok);
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'), 4000);
+}
+
+form.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  let valid = true;
+  const airlineVal = airlineInput.value.trim();
+  if(!airlineVal || !AIRLINES.some(a=>a.name === airlineVal)){ setInvalid(airlineInput); valid = false; }
+  form.querySelectorAll('.field input[required], .field select[required], .field textarea[required]').forEach(el=>{
+    if(el.id === 'airline') return;
+    if(el.id === 'consent'){ if(!el.checked){ setInvalid(el); valid = false; } return; }
+    if(el.id === 'complaintText'){ if(el.value.trim().length < 20){ setInvalid(el); valid = false; } return; }
+    if(el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value)){ setInvalid(el); valid = false; return; }
+    if(!el.value.trim()){ setInvalid(el); valid = false; }
+  });
+  if(!valid){ showToast('Please correct the highlighted fields.', false); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-9-9"/></svg> Submitting…';
+  showToast('Submitting your complaint…');
+
+  const ref = 'SV-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2,6).toUpperCase();
+  const data = {
+    access_key: "YOUR_ACCESS_KEY_HERE",           // ← replace with your Web3Forms access key
+    subject: `New Airline Complaint — ${airlineVal} — Ref ${ref}`,
+    from_name: "SkyVoice Complaint Portal",
+    airline: airlineVal,
+    booking_reference: form.booking_reference.value.trim().toUpperCase(),
+    full_name: form.full_name.value.trim(),
+    email: form.email.value.trim(),
+    phone: form.phone.value.trim(),
+    flight_date: form.flight_date.value,
+    flight_route: form.flight_route.value.trim() || "Not provided",
+    complaint_type: form.complaint_type.value,
+    complaint_details: form.complaint_text.value.trim(),
+    reference: ref
+  };
+
+  try{
+    const res = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {"Content-Type":"application/json","Accept":"application/json"},
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if(res.ok && json.success){
+      document.getElementById('refCode').textContent = ref;
+      form.style.display = 'none';
+      document.getElementById('successPanel').style.display = 'block';
+      showToast('Complaint submitted successfully!');
+    } else {
+      throw new Error(json.message || 'Submission failed');
+    }
+  }catch(err){
+    showToast('Submission failed. Please check your connection and try again.', false);
+  }finally{
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg> Submit Complaint';
+  }
+});
+
+function resetForm(){
+  form.reset();
+  form.style.display = '';
+  document.getElementById('successPanel').style.display = 'none';
+  charCount.textContent = '0';
+}
+</script>
+</body>
+</html>
